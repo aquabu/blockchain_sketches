@@ -3,12 +3,13 @@
 <head>
   <title>MetaMask Example</title>
   <script>
-    function message(message) {
+    function runMetaMask() {
+      function message(message) {
         var elem = document.querySelector('#messages');
         elem.innerHTML += message;
         elem.innerHTML += '<br />';
       }
-    function runMetaMask() {
+
       message("loading MetaMask");
       // Let's imagine you want to receive an ether tip
       const yourAddress = '0xAE7Ab36ABAeFD0f0bB245494Ce14406a6b8fC9d6'
@@ -135,7 +136,7 @@
         }, 2000)
       }
     }
-    document.addEventListener("DOMContentLoaded", runMetaMask());
+    document.addEventListener("DOMContentLoaded", runMetaMask);
   </script>
 </head>
 
