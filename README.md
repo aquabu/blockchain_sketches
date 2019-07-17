@@ -11,6 +11,9 @@ Install:
 
 After you git clone this repo and cd into it
 ```
+git clone git@github.com:aquabu/blockchain_sketches.git
+cd blockchain_sketches
+
 yarn install
 node server.js
 ```
