@@ -7,7 +7,8 @@ This repository is basically an elaborate Gist with some example code. Don't exp
 
 Install: 
 * Node.js
-* MetaMask
+* Yarn
+* MetaMask browser extension
 
 After you git clone this repo and cd into it
 ```
