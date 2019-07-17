@@ -3,7 +3,7 @@ var http = require('http');
 
 http.createServer(function (request, response) {
     response.writeHead(200, {'Content-Type': 'text/html'})
-    fs.readFile('index2.html', function(err, content) {
+    fs.readFile('index.html', function(err, content) {
         response.write(content)
         response.end()
     })
