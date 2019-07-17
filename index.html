@@ -32,11 +32,14 @@
 
                     .then(function (accounts) {
                         if (ethereum.networkVersion !== desiredNetwork) {
-                            message('Swith network to Ropesten in the MetaMask UI')
+                            message('Switch network to Ropsten in the MetaMask UI')
                         }
 
                         const account = accounts[0]
-                        // message(`Account: #{account.balance()}`)
+                        message(`Wallet Address: ${account}`)
+                        web3.eth.getBalance(account, function(err, balance) {
+                            message(`Balance: ${web3.fromWei(balance, "ether")} ETH`)
+                        })
                         sendEtherFrom(account, function (err, transaction) {
                             if (err) {
                                 return message(`Could not pay: ${err}`);
