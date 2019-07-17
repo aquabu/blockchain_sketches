@@ -1,7 +1,7 @@
 # Blockchain Sketches
-Sketches of MetaMask and other blockchain wallet integration functionality.
+Sketches of wallet integration and other blockchain smart contract functionality.
 
-This repository is basically an elaborate Gist with some example code. Don't expect this code to be suitable for any kind of production enviironment. It's just a reference.
+This repository is basically an elaborate Gist with some example code. Don't expect this code to be suitable for any kind of production environment. It's just a rough reference.
 
 ## Run
 
@@ -18,8 +18,8 @@ Visit `localhost:8080`
 
 ## Approach
 
-* Quick sketches - not the prettiest code, but clean enough to think about the code
+* Quick sketches - not the prettiest code, but clean enough to think about
 * Low ceremony examples
 * Fairly minimal use of libraries
-* No or limited tests except where it helps me think more clearly or illustrate usage
+* No or limited tests except where it helps me think more clearly or illustrates usage
 * Remember I said this isn't production code
