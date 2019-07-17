@@ -16,8 +16,9 @@ cd blockchain_sketches
 
 yarn install
 node server.js
+
+open http://localhost:8080
 ```
-Visit `localhost:8080`
 
 ## Approach
 
