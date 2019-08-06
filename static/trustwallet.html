@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+
+<head>
+    <title>Trust Wallet Example</title>
+    <script>
+        function main() {
+            message('Hello World!')
+        }
+
+        function message(message) {
+            var elem = document.querySelector('#messages')
+            elem.innerHTML += message;
+            elem.innerHTML += '<br />'
+        }
+
+        document.addEventListener('DOMContentLoaded', main)
+    </script>
+</head>
+<body id='messages'/>
