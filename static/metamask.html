@@ -3,15 +3,15 @@
 <head>
     <title>MetaMask Example</title>
     <script>
-        const yourAddress = '0xAE7Ab36ABAeFD0f0bB245494Ce14406a6b8fC9d6';
+        const yourAddress = '0xAE7Ab36ABAeFD0f0bB245494Ce14406a6b8fC9d6'
         const value = web3.toWei('0.01', 'ether')
         const gasPrice = web3.toHex(web3.toWei('4','gwei'))
         const weiValueInHex = web3.toHex(value)
-        const desiredNetwork = '3'; // Ropsten
+        const desiredNetwork = '3' // Ropsten
 
         function message(message) {
-            var elem = document.querySelector("#messages");
-            elem.innerHTML += message;
+            var elem = document.querySelector("#messages")
+            elem.innerHTML += message
             elem.innerHTML += '<br /><br />'
         }
 
@@ -20,11 +20,11 @@
         }
 
         function runMetaMask() {
-            message("Loading MetaMask");
+            message("Loading MetaMask")
 
 
             if (typeof window.ethereum == 'undefined') {
-                message('No MetaMask browser extension present');
+                message('No MetaMask browser extension present')
             } else {
                 ethereum.enable()
                     .catch(function (reason) {
@@ -43,9 +43,9 @@
                         })
                         sendEtherFrom(account, function (err, transaction) {
                             if (err) {
-                                return message(`Could not pay: ${err}`);
+                                return message(`Could not pay: ${err}`)
                             }
-                            message(`Payment sent: ${pretty(transaction)}`);
+                            message(`Payment sent: ${pretty(transaction)}`)
                         })
                     })
             }
@@ -61,7 +61,7 @@
                 //data: '0x0000000000000001' // message / function call to a smart contract
             }]
 
-            const from = account;
+            const from = account
             const payload = {
                 method: method,
                 params: parameters,
@@ -70,21 +70,21 @@
 
             ethereum.sendAsync(payload, function (err, response) {
                 if (response.error) {
-                    message(`Rejected: ${response.error.message}`);
+                    message(`Rejected: ${response.error.message}`)
                 }
                 if (response.result) {
-                    const txHash = response.result;
-                    message(`Paid transaction: ${txHash}`);
-                    message(`Payment details:<br />${pretty(payload)}`);
-                    pollForCompletion(txHash, callback);
+                    const txHash = response.result
+                    message(`Paid transaction: ${txHash}`)
+                    message(`Payment details:<br />${pretty(payload)}`)
+                    pollForCompletion(txHash, callback)
                 }
             })
         }
 
         function pollForCompletion(txHash, callback) {
-            let calledBack = false;
+            let calledBack = false
             const checkInterval = setInterval(function () {
-                const notYet = 'response has no error or result';
+                const notYet = 'response has no error or result'
                 ethereum.sendAsync({
                     method: 'eth_getTransactionByHash',
                     params: [txHash],
@@ -98,14 +98,14 @@
                         callback(err || response.error)
                     }
 
-                    const transaction = response.result;
+                    const transaction = response.result
                     clearInterval(checkInterval)
                     calledBack = true
                     callback(null, transaction)
                 })
             }, 2000)
         }
-        document.addEventListener('DOMContentLoaded', runMetaMask);
+        document.addEventListener('DOMContentLoaded', runMetaMask)
     </script>
 </head>
 
