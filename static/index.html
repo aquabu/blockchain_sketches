@@ -5,6 +5,7 @@
     <script>
         const yourAddress = '0xAE7Ab36ABAeFD0f0bB245494Ce14406a6b8fC9d6';
         const value = web3.toWei('0.01', 'ether')
+        const gasPrice = web3.toHex(web3.toWei('4','gwei'))
         const weiValueInHex = web3.toHex(value)
         const desiredNetwork = '3'; // Ropsten
 
@@ -55,7 +56,9 @@
             const parameters = [{
                 from: account,
                 to: yourAddress,
+                gasPrice: gasPrice,
                 value: weiValueInHex,
+                //data: '0x0000000000000001' // message / function call to a smart contract
             }]
 
             const from = account;

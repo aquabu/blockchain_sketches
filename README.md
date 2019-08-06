@@ -16,7 +16,7 @@ git clone git@github.com:aquabu/blockchain_sketches.git
 cd blockchain_sketches
 
 yarn install
-node server.js
+node app.js
 
 open http://localhost:8080
 ```
