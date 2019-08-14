@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+    <title>MetaMask Sign Transaction</title>
+    <script>
+        let yourAccount
+        const value = web3.toWei('0.01', 'ether')
+        const gasPrice = web3.toHex(web3.toWei('4','gwei'))
+        const weiValueInHex = web3.toHex(value)
+        const desiredNetwork = '3' // Ropsten
+
+        function message(message) {
+            var elem = document.querySelector("#messages")
+            elem.innerHTML += message
+            elem.innerHTML += '<br /><br />'
+        }
+
+        function pretty(payload) {
+            return JSON.stringify(payload, null, 2).replace(/,/g,",<br />")
+        }
+
+        function runMetaMask() {
+            message("Loading MetaMask")
+
+
+            if (typeof window.ethereum == 'undefined') {
+                message('No MetaMask browser extension present')
+            } else {
+                ethereum.enable()
+                    .catch(function (reason) {
+                        message(`Rejection reason: ${reason}`)
+                    })
+
+                    .then(function (accounts) {
+                        if (ethereum.networkVersion !== desiredNetwork) {
+                            message('Switch network to Ropsten in the MetaMask UI')
+                        }
+
+                        yourAccount = accounts[0]
+                        message(`Wallet Address: ${yourAccount}`)
+                        web3.eth.getBalance(yourAccount, function(err, balance) {
+                            message(`Balance: ${web3.fromWei(balance, "ether")} ETH`)
+                        })
+                        sendEtherFrom(yourAccount, function (err, transaction) {
+                            if (err) {
+                                return message(`Could not pay: ${err}`)
+                            }
+                            message(`Payment sent: ${pretty(transaction)}`)
+                        })
+                    })
+            }
+        }
+
+        function sendEtherFrom(account, callback) {
+            const method = 'eth_sendTransaction'
+            const parameters = [{
+                from: yourAccount,
+                to: yourAccount,
+                gasPrice: gasPrice,
+                value: weiValueInHex,
+                //data: '0x0000000000000001' // message / function call to a smart contract
+            }]
+
+            const from = account
+            const payload = {
+                method: method,
+                params: parameters,
+                from: from,
+            }
+
+            ethereum.sendAsync(payload, function (err, response) {
+                if (response.error) {
+                    message(`Rejected: ${response.error.message}`)
+                }
+                if (response.result) {
+                    const txHash = response.result
+                    message(`Paid transaction: ${txHash}`)
+                    message(`Payment details:<br />${pretty(payload)}`)
+                    pollForCompletion(txHash, callback)
+                }
+            })
+        }
+
+        function pollForCompletion(txHash, callback) {
+            let calledBack = false
+            const checkInterval = setInterval(function () {
+                const notYet = 'response has no error or result'
+                ethereum.sendAsync({
+                    method: 'eth_getTransactionByHash',
+                    params: [txHash],
+                }, function (err, response) {
+                    if (calledBack) return
+                    if (err || response.error) {
+                        if (err.message.includes(notYet)) {
+                            return 'transactiion is not yet mined'
+                        }
+
+                        callback(err || response.error)
+                    }
+
+                    const transaction = response.result
+                    clearInterval(checkInterval)
+                    calledBack = true
+                    callback(null, transaction)
+                })
+            }, 2000)
+        }
+        document.addEventListener('DOMContentLoaded', runMetaMask)
+    </script>
+</head>
+
+<body id='messages'>
+
+</body>

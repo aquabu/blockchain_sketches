@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html lang='en'>
 <head>
-    <title>MetaMask Example</title>
+    <title>MetaMask Sign Transaction</title>
     <script>
-        const yourAddress = '0xAE7Ab36ABAeFD0f0bB245494Ce14406a6b8fC9d6'
+        let yourAccount
         const value = web3.toWei('0.01', 'ether')
         const gasPrice = web3.toHex(web3.toWei('4','gwei'))
         const weiValueInHex = web3.toHex(value)
@@ -36,12 +36,12 @@
                             message('Switch network to Ropsten in the MetaMask UI')
                         }
 
-                        const account = accounts[0]
-                        message(`Wallet Address: ${account}`)
-                        web3.eth.getBalance(account, function(err, balance) {
+                        yourAccount = accounts[0]
+                        message(`Wallet Address: ${yourAccount}`)
+                        web3.eth.getBalance(yourAccount, function(err, balance) {
                             message(`Balance: ${web3.fromWei(balance, "ether")} ETH`)
                         })
-                        sendEtherFrom(account, function (err, transaction) {
+                        sendEtherFrom(yourAccount, function (err, transaction) {
                             if (err) {
                                 return message(`Could not pay: ${err}`)
                             }
@@ -54,8 +54,8 @@
         function sendEtherFrom(account, callback) {
             const method = 'eth_sendTransaction'
             const parameters = [{
-                from: account,
-                to: yourAddress,
+                from: yourAccount,
+                to: yourAccount,
                 gasPrice: gasPrice,
                 value: weiValueInHex,
                 //data: '0x0000000000000001' // message / function call to a smart contract
