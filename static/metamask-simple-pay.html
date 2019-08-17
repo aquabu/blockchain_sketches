@@ -2,22 +2,13 @@
 <html lang='en'>
 <head>
     <title>MetaMask Sign Transaction</title>
+    <script src='bundle.js' type='text/javascript'></script>
     <script>
         let yourAccount
         const value = web3.toWei('0.01', 'ether')
         const gasPrice = web3.toHex(web3.toWei('4','gwei'))
         const weiValueInHex = web3.toHex(value)
         const desiredNetwork = '3' // Ropsten
-
-        function message(message) {
-            var elem = document.querySelector("#messages")
-            elem.innerHTML += message
-            elem.innerHTML += '<br /><br />'
-        }
-
-        function pretty(payload) {
-            return JSON.stringify(payload, null, 2).replace(/,/g,",<br />")
-        }
 
         function runMetaMask() {
             message("Loading MetaMask")

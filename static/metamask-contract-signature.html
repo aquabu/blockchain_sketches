@@ -1,28 +1,46 @@
 <!DOCTYPE html>
 <html lang='en'>
+
 <head>
     <title>MetaMask Sign Transaction</title>
     <script src='bundle.js' type='text/javascript'></script>
     <script>
         async function run() {
-            let erc20json = await getRPCJSON('/contract-rpc/ERC20.json')
-            console.log(erc20json)
+            window.web3 = new Web3(ethereum)
+            let addr = await web3.eth.getCoinbase()
+            let abi = await util.getABI('/contract-rpc/ERC20.json')
+            console.log(abi)
 
-            let Token = await TruffleContract(erc20json)
-            Token.setProvider(web3.currentProvider)
-            await Token.at('0xec155d80c7400484fb2d3732fa2aa779348f52e4')
-            let token = await Token.deployed()
-            let totalSupply = await token.totalSupply.call().toNumber()
-            console.log(totalSupply)
-        }
-        async function getRPCJSON(path) {
-            return await fetch(path).then(async (response) => {
-                return await response.json()
+            let token = new web3.eth.Contract(abi, '0x6e75367c4ee67eac70ab7309a2fd008dbe940a19')
+            window.token = token
+
+            token.methods.name().call((err, name) => {
+                message(`<strong>Token Name:</strong> ${name}`)
+                console.log(name)
             })
+
+            token.methods.totalSupply().call((err, amount) => {
+                message(`<strong>Total Supply</strong> ${amount}`)
+            })
+
+            var value = '100'
+            var toAddress = addr // send tokens to self
+            await token.methods.transfer(toAddress, value)
+                .send({
+                    from: addr
+                }, (err, txHash) => {
+                    if (err) console.error(err)
+
+                    if (txHash) {
+                        console.log('Transaction sent')
+                        console.dir(txHash)
+                    }
+                })
         }
         run()
     </script>
 </head>
+
 <body id='messages'>
 
 </body>
