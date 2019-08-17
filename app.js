@@ -11,7 +11,7 @@ app.get('/', (req, res) => {
             "<!doctype html><html lang='en'><title>Index</title><ul>"
         )
         files.forEach((file) => {
-            if(file !== 'bundle.js' && file !== 'contract-rpc' && file !== ''){
+            if(file !== 'bundle.js' && file !== 'contract-rpc' && !file.match(/^\./)) {
                 res.write(`<li><a href='${file}'>${ file.replace( /\..*$/, '' ) }</a></li>`)
             }
         })
