@@ -3,11 +3,12 @@
     "browserify": "^16.5.0",
     "eslint-plugin-node": "^9.1.0",
     "express": "^4.17.1",
+    "nodemon": "^1.19.1",
     "truffle-contract": "^4.0.29"
   },
   "scripts": {
     "compile": "browserify src/*.js -o static/bundle.js",
-    "dev": "yarn compile && node app.js"
+    "dev": "yarn compile && nodemon app.js"
   },
   "devDependencies": {
     "eslint": "^6.1.0"
