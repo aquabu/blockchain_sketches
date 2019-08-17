@@ -11,7 +11,9 @@ app.get('/', (req, res) => {
             "<!doctype html><html lang='en'><title>Index</title><ul>"
         )
         files.forEach((file) => {
-            res.write(`<li><a href='${file}'>${ file.replace( /\..*$/, '' ) }</a></li>`)
+            if(file !== 'bundle.js'){
+                res.write(`<li><a href='${file}'>${ file.replace( /\..*$/, '' ) }</a></li>`)
+            }
         })
         res.write('</ul>')
         res.end()
