@@ -88857,5 +88857,4 @@ function extend() {
 },{}],416:[function(require,module,exports){
 const truffle = require('truffle-contract')
 console.log('hello from signing.js')
-console.log(typeof(truffle))
 },{"truffle-contract":312}]},{},[416]);

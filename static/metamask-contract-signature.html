@@ -3,6 +3,25 @@
 <head>
     <title>MetaMask Sign Transaction</title>
     <script src='bundle.js' type='text/javascript'></script>
+    <script>
+        async function run() {
+            let erc20json = await getRPCJSON('/contract-rpc/ERC20.json')
+            console.log(erc20json)
+
+            let Token = await TruffleContract(erc20json)
+            Token.setProvider(web3.currentProvider)
+            await Token.at('0xec155d80c7400484fb2d3732fa2aa779348f52e4')
+            let token = await Token.deployed()
+            let totalSupply = await token.totalSupply.call().toNumber()
+            console.log(totalSupply)
+        }
+        async function getRPCJSON(path) {
+            return await fetch(path).then(async (response) => {
+                return await response.json()
+            })
+        }
+        run()
+    </script>
 </head>
 <body id='messages'>
 
