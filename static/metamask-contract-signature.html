@@ -11,7 +11,7 @@
             let abi = await util.getABI('/contract-rpc/ERC20.json')
             console.log(abi)
 
-            let token = new web3.eth.Contract(abi, '0x6e75367c4ee67eac70ab7309a2fd008dbe940a19')
+            let token = new web3.eth.Contract(abi, '0xE9b8a874F1619d92df8D8237db46B770d9Bae52a')
             window.token = token
 
             token.methods.name().call((err, name) => {
