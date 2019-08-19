@@ -28,3 +28,11 @@ open http://localhost:8080
 * Fairly minimal use of libraries
 * No or limited tests except where it helps me think more clearly or illustrates usage
 * Remember I said this isn't production code
+
+## TODO
+* reference contract addresses from browser interface
+* ERC1404 whitelist examples
+* ERC20 and ERC1404 contracts with MetaMask?
+* Notarization contract example
+* DAO Integration Example
+* Binance chain integration through Trust Wallet

@@ -11,32 +11,32 @@
         const desiredNetwork = '3' // Ropsten
 
         function runMetaMask() {
-            message("Loading MetaMask")
+            util.message("Loading MetaMask")
 
 
             if (typeof window.ethereum == 'undefined') {
-                message('No MetaMask browser extension present')
+                util.message('No MetaMask browser extension present')
             } else {
                 ethereum.enable()
                     .catch(function (reason) {
-                        message(`Rejection reason: ${reason}`)
+                        util.message(`Rejection reason: ${reason}`)
                     })
 
                     .then(function (accounts) {
                         if (ethereum.networkVersion !== desiredNetwork) {
-                            message('Switch network to Ropsten in the MetaMask UI')
+                            util.message('Switch network to Ropsten in the MetaMask UI')
                         }
 
                         yourAccount = accounts[0]
-                        message(`Wallet Address: ${yourAccount}`)
+                        util.message(`Wallet Address: ${yourAccount}`)
                         web3.eth.getBalance(yourAccount, function(err, balance) {
-                            message(`Balance: ${web3.fromWei(balance, "ether")} ETH`)
+                            util.message(`Balance: ${web3.fromWei(balance, "ether")} ETH`)
                         })
                         sendEtherFrom(yourAccount, function (err, transaction) {
                             if (err) {
-                                return message(`Could not pay: ${err}`)
+                                return util.message(`Could not pay: ${err}`)
                             }
-                            message(`Payment sent: ${pretty(transaction)}`)
+                            util.message(`Payment sent: ${util.pretty(transaction)}`)
                         })
                     })
             }
@@ -61,12 +61,12 @@
 
             ethereum.sendAsync(payload, function (err, response) {
                 if (response.error) {
-                    message(`Rejected: ${response.error.message}`)
+                    util.message(`Rejected: ${response.error.message}`)
                 }
                 if (response.result) {
                     const txHash = response.result
-                    message(`Paid transaction: ${txHash}`)
-                    message(`Payment details:<br />${pretty(payload)}`)
+                    util.message(`Paid transaction: ${txHash}`)
+                    util.message(`Payment details:<br />${util.pretty(payload)}`)
                     pollForCompletion(txHash, callback)
                 }
             })

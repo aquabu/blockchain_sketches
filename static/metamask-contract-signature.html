@@ -15,12 +15,12 @@
             window.token = token
 
             token.methods.name().call((err, name) => {
-                message(`<strong>Token Name:</strong> ${name}`)
+                util.message(`<strong>Token Name:</strong> ${name}`)
                 console.log(name)
             })
 
             token.methods.totalSupply().call((err, amount) => {
-                message(`<strong>Total Supply</strong> ${amount}`)
+                util.message(`<strong>Total Supply</strong> ${amount}`)
             })
 
             var value = '100'
