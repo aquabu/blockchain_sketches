@@ -1,11 +1,11 @@
 pragma solidity ^0.5.8;
 
 contract Claims {
-  string[] public claims;
-  mapping (string => address) claimSigner;
+  bytes32[] public claims;
+  mapping (bytes32 => address) claimSigner;
 
-  function put(string memory _claim) public {
-    if (claimSigner[_claim] != address(0)) return revert();
+  function put(bytes32 _claim) public {
+    // if (claimSigner[_claim] != address(0)) revert();
     claimSigner[_claim] = msg.sender;
     claims.push(_claim);
   }
@@ -14,11 +14,11 @@ contract Claims {
       return claims.length;
   }
 
-  function getSigner(string memory claim) public view returns (address _signer) {
+  function getSigner(bytes32 claim) public view returns (address _signer) {
     return claimSigner[claim];
   }
 
-  function getClaim(uint256 index) public view returns (string memory _claim) {
+  function getClaim(uint256 index) public view returns (bytes32 _claim) {
     return claims[index];
   }
   

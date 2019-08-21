@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang='en'>
+
+<head>
+    <title>Send Tokens With MetaMask</title>
+    <script src='bundle.js' type='text/javascript'></script>
+    <script>
+        async function run() {
+            window.web3 = new Web3(ethereum)
+            let addr = await web3.eth.getCoinbase()
+            let abi = await util.getABI('/contract-rpc/Claims.json')
+            console.log(abi)
+
+            let claims = new web3.eth.Contract(abi, "0x78888633b462bc214429C755B106D594275E14e8")
+            window.claims = claims
+
+            let network = await web3.eth.net.getNetworkType()
+            util.message(`<strong>Current Network</strong> ${network}`)
+            util.message(`<strong>Claims Contract Address</strong> ${claims._address}`)
+
+            let timestamp = new Date().getTime().toString()
+            let preparedClaim = web3.utils.padRight(web3.utils.fromAscii(timestamp), 34)
+            util.message(`<strong>Claim Content Timestamp</strong> ${timestamp}`)
+            util.message(`<strong>Bytes32 Prepared Claim</strong> ${preparedClaim}`)
+
+            claims.methods.put(preparedClaim).send({from: addr})
+           
+            let claimsCount = await claims.methods.count().call()
+            util.message(`<strong>Claims Count</strong> ${claimsCount}`)
+
+            let signerOfClaim = await claims.methods.getSigner(preparedClaim).call()
+
+            util.message(`<strong>Claims Was Signed By</strong> ${claimsCount}`)
+        }
+        run()
+    </script>
+</head>
+
+<body id='messages'>
+
+</body>
