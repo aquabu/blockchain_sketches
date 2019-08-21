@@ -21,7 +21,7 @@ contract Claims {
   function getClaim(uint256 index) public view returns (bytes32 _claim) {
     return claims[index];
   }
-  
+
   function () external {
     revert();
   }

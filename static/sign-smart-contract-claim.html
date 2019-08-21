@@ -16,6 +16,7 @@
 
             let network = await web3.eth.net.getNetworkType()
             util.message(`<strong>Current Network</strong> ${network}`)
+            util.message(`<Strong>Current Wallet Address:</Strong>: ${addr}`)
             util.message(`<strong>Claims Contract Address</strong> ${claims._address}`)
 
             let timestamp = new Date().getTime().toString()
@@ -23,14 +24,17 @@
             util.message(`<strong>Claim Content Timestamp</strong> ${timestamp}`)
             util.message(`<strong>Bytes32 Prepared Claim</strong> ${preparedClaim}`)
 
-            claims.methods.put(preparedClaim).send({from: addr})
-           
-            let claimsCount = await claims.methods.count().call()
-            util.message(`<strong>Claims Count</strong> ${claimsCount}`)
+            claims.methods.put(preparedClaim).send({from: addr}).on('transactionHash', (txnHash) => {
+                util.message(`<strong>Transaction Hash</strong> ${txnHash}`)
 
-            let signerOfClaim = await claims.methods.getSigner(preparedClaim).call()
-
-            util.message(`<strong>Claims Was Signed By</strong> ${claimsCount}`)
+                util.pollForCompletion(txnHash, async () => {
+                    let signerOfClaim = await claims.methods.getSigner(preparedClaim).call()
+                    util.message(`<Strong>Current Wallet Address:</Strong>: ${addr}`)
+                    util.message(`<strong>Claims Was Signed By</strong> ${signerOfClaim}`)
+                    let claimsCount = await claims.methods.count().call()
+                    util.message(`<strong>Claims Count</strong> ${claimsCount}`)
+                })
+            })
         }
         run()
     </script>
