@@ -8,15 +8,16 @@
         async function run() {
             window.web3 = new Web3(ethereum)
             let addr = await web3.eth.getCoinbase()
-            let abi = await util.getABI('/contract-rpc/ERC20.json')
-            console.log(abi)
 
-            let token = new web3.eth.Contract(abi, '0xE9b8a874F1619d92df8D8237db46B770d9Bae52a')
+            let claimsBuildJson = await util.getABI('/build/FixedSupplyToken.json')
+            let abi = claimsBuildJson["abi"] 
+            let contractAddress = claimsBuildJson['networks'][5777]["address"]
+
+            let token = new web3.eth.Contract(abi, contractAddress)
             window.token = token
 
             token.methods.name().call((err, name) => {
                 util.message(`<strong>Token Name:</strong> ${name}`)
-                console.log(name)
             })
 
             token.methods.totalSupply().call((err, amount) => {
@@ -30,10 +31,8 @@
                     from: addr
                 }, (err, txHash) => {
                     if (err) console.error(err)
-
                     if (txHash) {
-                        console.log('Transaction sent')
-                        console.dir(txHash)
+                        util.message(`<strong>Transaction Hash</strong> ${txHash}`)
                     }
                 })
         }

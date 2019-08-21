@@ -8,16 +8,19 @@
         async function run() {
             window.web3 = new Web3(ethereum)
             let addr = await web3.eth.getCoinbase()
-            let abi = await util.getABI('/contract-rpc/Claims.json')
+            let claimsBuildJson = await util.getABI('/build/Claims.json')
+            let abi = claimsBuildJson["abi"] 
+            let claimsAddress = claimsBuildJson['networks'][5777]["address"]
+
             console.log(abi)
 
-            let claims = new web3.eth.Contract(abi, "0x78888633b462bc214429C755B106D594275E14e8")
+            let claims = new web3.eth.Contract(abi, claimsAddress)
             window.claims = claims
 
             let network = await web3.eth.net.getNetworkType()
-            util.message(`<strong>Current Network</strong> ${network}`)
+            util.message(`<strong>Current Network:</strong> ${network}`)
             util.message(`<Strong>Current Wallet Address:</Strong>: ${addr}`)
-            util.message(`<strong>Claims Contract Address</strong> ${claims._address}`)
+            util.message(`<strong>Claims Contract Address:</strong> ${claims._address}`)
 
             let timestamp = new Date().getTime().toString()
             let preparedClaim = web3.utils.padRight(web3.utils.fromAscii(timestamp), 34)
@@ -30,7 +33,7 @@
                 util.pollForCompletion(txnHash, async () => {
                     let signerOfClaim = await claims.methods.getSigner(preparedClaim).call()
                     util.message(`<Strong>Current Wallet Address:</Strong>: ${addr}`)
-                    util.message(`<strong>Claims Was Signed By</strong> ${signerOfClaim}`)
+                    util.message(`<strong>Claim Was Signed By</strong> ${signerOfClaim}`)
                     let claimsCount = await claims.methods.count().call()
                     util.message(`<strong>Claims Count</strong> ${claimsCount}`)
                 })

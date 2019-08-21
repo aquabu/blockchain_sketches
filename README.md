@@ -16,7 +16,8 @@ git clone git@github.com:aquabu/blockchain_sketches.git
 cd blockchain_sketches
 
 yarn install
-node app.js
+yarn setup
+yarn dev
 
 open http://localhost:8080
 ```
@@ -30,9 +31,6 @@ open http://localhost:8080
 * Remember I said this isn't production code
 
 ## TODO
-* reference contract addresses from browser interface
 * ERC1404 whitelist examples
-* ERC20 and ERC1404 contracts with MetaMask?
-* Notarization contract example
 * DAO Integration Example
 * Binance chain integration through Trust Wallet
